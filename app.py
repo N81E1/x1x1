@@ -24,7 +24,7 @@ from linebot.v3.webhooks import (
 import mediapipe as mp  #mediapipe：Google 提供的 AI 偵測工具，可用於手勢辨識
 import cv2  #opencv-python：用於處理影像與視訊流
 import time #time:提供處理時間的方法，除了可以取得目前的時間或轉換時間，也能夠透過像是 sleep() 的方法將程式暫停 
-from linebot import LineBotApi    #line-bot-sdk：用於發送 Line Bot 訊息與圖片通知。
+#from linebot import LineBotApi    #line-bot-sdk：用於發送 Line Bot 訊息與圖片通知。
 from linebot.models import TextSendMessage, ImageSendMessage
 
 import os   #os:操作系統中檔案的方法
@@ -126,7 +126,7 @@ IMGUR_CLIENT_ID = '44338750d0cf7bd'
 # 定義 Line Bot Token 和 User ID
 LINE_BOT_TOKEN = Configuration(access_token=os.getenv('CHANNEL_ACCESS_TOKEN'))
 LINE_USER_ID =WebhookHandler(os.getenv('CHANNEL_SECRET'))
-line_bot_api = LineBotApi(LINE_BOT_TOKEN)
+#line_bot_api = LineBotApi(LINE_BOT_TOKEN)
 
 # 初始化 Mediapipe 的手部模型
 mp_hands = mp.solutions.hands
@@ -216,7 +216,7 @@ def upload_to_imgur(image_path):
 
 # 定義發送消息到 Line Bot 的函數
 def send_line_message(message):
-    line_bot_api.push_message(LINE_USER_ID, TextSendMessage(text=message))
+    LINE_BOT_TOKEN.push_message(LINE_USER_ID, TextSendMessage(text=message))
 
 #   這兩個函式用於傳送文字訊息和圖片至 LINE Bot：
 def broadcast_message(Tmessage):
@@ -255,7 +255,7 @@ def send_image_to_line(imgur_link, line_user_id):
             original_content_url=imgur_link,
             preview_image_url=imgur_link
         )
-        line_bot_api.push_message(line_user_id, image_message)
+        LINE_BOT_TOKEN.push_message(line_user_id, image_message)
     except Exception as e:
         print(f"發送 Line 圖片失敗: {e}")
 
